@@ -5,9 +5,9 @@ import createToken from "../untils/createToken.js";
 
 // Hàm tạo User mới
 const createUser = asyncHandler(async (req, res) => {
-  const { username, email, phone, password, confirmPassword } = req.body;
+  const { username, email, phone, password } = req.body;
 
-  if (!username || !email || !password || !confirmPassword) {
+  if (!username || !email || !password) {
     return res.status(400).json({ message: "Please fill all the required inputs." });
   }
 
@@ -27,7 +27,7 @@ const createUser = asyncHandler(async (req, res) => {
     email,
     phone,
     password: hashedPassword,
-    image,
+    image: "",
   });
 
   try {
@@ -40,6 +40,7 @@ const createUser = asyncHandler(async (req, res) => {
       username: newUser.username,
       email: newUser.email,
       phone: newUser.phone,
+      image: newUser.image,
       isAdmin: newUser.isAdmin,
     });
   } catch (error) {
