@@ -20,15 +20,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(cors());
 
-// Cấu hình CORS cho phép frontend gửi cookie
-app.use(
-  cors({
-    origin: "https://sushilaw.io.vn" || "http://localhost:3000",  // Phải đúng địa chỉ frontend của bạn
-    credentials: true,                  // Cho phép gửi cookie trong request
-  })
-);
-
+// API Routes
 app.use("/api/users", userRoutes);
 app.use("/api/news", newsRoutes);
 app.use("/api/products", productRoutes);
@@ -36,6 +30,15 @@ app.use("/api/consultations", consultationRoutes);
 app.use("/api/comments", commentRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
+
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "../LawProjectF/dist")));
+
+// The "catchall" handler: for any request that doesn't
+// match one above, send back React's index.html file.
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "../LawProjectF/dist/index.html"));
+});
 
 const port = process.env.PORT || 5001;
 
