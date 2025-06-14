@@ -1,6 +1,6 @@
 import asyncHandler from "../middlewares/asyncHandler.js";
 import Cart from "../models/cartModel.js";
-import Product from "../models/productModel.js";
+import Product from '../models/ProductModel.js';
 
 // Get user's cart
 const getCart = asyncHandler(async (req, res) => {
