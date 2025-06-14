@@ -7,7 +7,7 @@ import createToken from "../untils/createToken.js";
 const createUser = asyncHandler(async (req, res) => {
   const { username, email, phone, password, confirmPassword } = req.body;
 
-  if (!username || !email || !password || !image) {
+  if (!username || !email || !password || !confirmPassword) {
     return res.status(400).json({ message: "Please fill all the required inputs." });
   }
 
@@ -27,6 +27,7 @@ const createUser = asyncHandler(async (req, res) => {
     email,
     phone,
     password: hashedPassword,
+    image,
   });
 
   try {
