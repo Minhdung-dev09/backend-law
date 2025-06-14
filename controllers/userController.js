@@ -5,10 +5,14 @@ import createToken from "../untils/createToken.js";
 
 // Hàm tạo User mới
 const createUser = asyncHandler(async (req, res) => {
-  const { username, email, image, phone, password } = req.body;
+  const { username, email, phone, password, confirmPassword } = req.body;
 
   if (!username || !email || !password || !image) {
     return res.status(400).json({ message: "Please fill all the required inputs." });
+  }
+
+  if (password !== confirmPassword) {
+    return res.status(400).json({ message: "Mật khẩu và mật khẩu xác nhận không khớp" });
   }
 
   const userExists = await User.findOne({ email });
@@ -21,7 +25,6 @@ const createUser = asyncHandler(async (req, res) => {
   const newUser = new User({
     username,
     email,
-    image,
     phone,
     password: hashedPassword,
   });
@@ -34,7 +37,6 @@ const createUser = asyncHandler(async (req, res) => {
     res.status(201).json({
       _id: newUser._id,
       username: newUser.username,
-      image: newUser.image,
       email: newUser.email,
       phone: newUser.phone,
       isAdmin: newUser.isAdmin,
